@@ -64,14 +64,14 @@
 
 #ifdef SLIMBOY
 #define RED_LED 5   /**< The pin number for the red color in the RGB LED. */
-#define GREEN_LED 7 /**< The pin number for the greem color in the RGB LED. */
+#define GREEN_LED 3 /**< The pin number for the greem color in the RGB LED. */
 #define BLUE_LED 6   /**< The pin number for the blue color in the RGB LED. */
 
 #define RED_LED_PORT PORTD
 #define RED_LED_BIT PORTD5
 
 #define GREEN_LED_PORT PORTD
-#define GREEN_LED_BIT PORTD7
+#define GREEN_LED_BIT PORTD3
 
 #define BLUE_LED_PORT PORTD
 #define BLUE_LED_BIT PORTD6
@@ -100,41 +100,41 @@
 #define B_BUTTON _BV(2)     /**< The B button value for functions requiring a bitmask */
 
 #ifdef SLIMBOY
-#define PIN_LEFT_BUTTON 15
+#define PIN_LEFT_BUTTON 14
 #define LEFT_BUTTON_PORT PORTC
 #define LEFT_BUTTON_PORTIN PINC
 #define LEFT_BUTTON_DDR DDRC
-#define LEFT_BUTTON_BIT PORTC1
+#define LEFT_BUTTON_BIT PORTC0
 
-#define PIN_RIGHT_BUTTON 3
-#define RIGHT_BUTTON_PORT PORTD
-#define RIGHT_BUTTON_PORTIN PIND
-#define RIGHT_BUTTON_DDR DDRD
-#define RIGHT_BUTTON_BIT PORTD3
+#define PIN_RIGHT_BUTTON 17
+#define RIGHT_BUTTON_PORT PORTC
+#define RIGHT_BUTTON_PORTIN PINC
+#define RIGHT_BUTTON_DDR DDRC
+#define RIGHT_BUTTON_BIT PORTC3
 
-#define PIN_UP_BUTTON 17
+#define PIN_UP_BUTTON 15
 #define UP_BUTTON_PORT PORTC
 #define UP_BUTTON_PORTIN PINC
 #define UP_BUTTON_DDR DDRC
-#define UP_BUTTON_BIT PORTC3
+#define UP_BUTTON_BIT PORTC1
 
-#define PIN_DOWN_BUTTON 2
-#define DOWN_BUTTON_PORT PORTD
-#define DOWN_BUTTON_PORTIN PIND
-#define DOWN_BUTTON_DDR DDRD
-#define DOWN_BUTTON_BIT PORTD2
+#define PIN_DOWN_BUTTON 16
+#define DOWN_BUTTON_PORT PORTC
+#define DOWN_BUTTON_PORTIN PINC
+#define DOWN_BUTTON_DDR DDRC  
+#define DOWN_BUTTON_BIT PORTC2
 
-#define PIN_A_BUTTON 4
-#define A_BUTTON_PORT PORTD
-#define A_BUTTON_PORTIN PIND
-#define A_BUTTON_DDR DDRD
-#define A_BUTTON_BIT PORTD4
+#define PIN_A_BUTTON 18
+#define A_BUTTON_PORT PORTC
+#define A_BUTTON_PORTIN PINC
+#define A_BUTTON_DDR DDRC
+#define A_BUTTON_BIT PORTC4
 
-#define PIN_B_BUTTON 16
+#define PIN_B_BUTTON 19
 #define B_BUTTON_PORT PORTC
 #define B_BUTTON_PORTIN PINC
 #define B_BUTTON_DDR DDRC
-#define B_BUTTON_BIT PORTC2
+#define B_BUTTON_BIT PORTC5
 
 #else
 
@@ -176,12 +176,13 @@
 #endif
 
 #ifdef SLIMBOY
-#define PIN_SPEAKER_1 9  /**< The pin number of the first lead of the speaker */
+#define PIN_SPEAKER_1 7  /**< The pin number of the first lead of the speaker */
+//FIXME: solve the second
 #define PIN_SPEAKER_2 11 /**< The pin number of the second lead of the speaker */
 
-#define SPEAKER_1_PORT PORTB
-#define SPEAKER_1_DDR DDRB
-#define SPEAKER_1_BIT PORTB1
+#define SPEAKER_1_PORT PORTD
+#define SPEAKER_1_DDR DDRD
+#define SPEAKER_1_BIT PORTD7
 
 #define SPEAKER_2_PORT PORTB
 #define SPEAKER_2_DDR DDRB
@@ -292,7 +293,7 @@
 // ----- Pins common on Arduboy and DevKit -----
 
 // Unconnected analog input used for noise by initRandomSeed()
-#define RAND_SEED_IN A4
+#define RAND_SEED_IN A6
 #define RAND_SEED_IN_PORT PORTF
 #define RAND_SEED_IN_BIT PORTF1
 // Value for ADMUX to read the random seed pin: 2.56V reference, ADC1
