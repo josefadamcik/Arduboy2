@@ -48,19 +48,17 @@
 // ----- Arduboy pins -----
 #ifdef ARDUBOY_10
 
-#ifndef SLIMBOY
-#define PIN_CS 12       // Display CS Arduino pin number
-#define CS_PORT PORTD   // Display CS port
-#define CS_BIT PORTD6   // Display CS physical bit number
+#define PIN_CS 8       // Display CS Arduino pin number
+#define CS_PORT PORTB   // Display CS port
+#define CS_BIT PORTB0   // Display CS physical bit number
 
-#define PIN_DC 4        // Display D/C Arduino pin number
-#define DC_PORT PORTD   // Display D/C port
-#define DC_BIT PORTD4   // Display D/C physical bit number
+#define PIN_DC 9        // Display D/C Arduino pin number
+#define DC_PORT PORTB   // Display D/C port
+#define DC_BIT PORTB1   // Display D/C physical bit number
 
-#define PIN_RST 6       // Display reset Arduino pin number
-#define RST_PORT PORTD  // Display reset port
-#define RST_BIT PORTD7  // Display reset physical bit number
-#endif
+#define PIN_RST 10       // Display reset Arduino pin number
+#define RST_PORT PORTB  // Display reset port
+#define RST_BIT PORTB2  // Display reset physical bit number
 
 #ifdef SLIMBOY
 #define RED_LED 5   /**< The pin number for the red color in the RGB LED. */
