@@ -11,6 +11,7 @@
 #include <Arduino.h>
 #include <avr/power.h>
 #include <avr/sleep.h>
+#include "SPI.h"
 
 #ifdef __AVR_ATmega328P__
 #warning SLIMBOY!
@@ -47,6 +48,7 @@
 
 // ----- Arduboy pins -----
 #ifdef ARDUBOY_10
+
 
 #define PIN_CS 8       // Display CS Arduino pin number
 #define CS_PORT PORTB   // Display CS port
@@ -176,15 +178,15 @@
 #ifdef SLIMBOY
 #define PIN_SPEAKER_1 7  /**< The pin number of the first lead of the speaker */
 //FIXME: solve the second
-#define PIN_SPEAKER_2 11 /**< The pin number of the second lead of the speaker */
+#define PIN_SPEAKER_2 4 /**< The pin number of the second lead of the speaker */
 
 #define SPEAKER_1_PORT PORTD
 #define SPEAKER_1_DDR DDRD
 #define SPEAKER_1_BIT PORTD7
 
-#define SPEAKER_2_PORT PORTB
-#define SPEAKER_2_DDR DDRB
-#define SPEAKER_2_BIT PORTB3
+#define SPEAKER_2_PORT PORTD
+#define SPEAKER_2_DDR DDRD
+#define SPEAKER_2_BIT PORTD4
 
 #else
 #define PIN_SPEAKER_1 5  /**< The pin number of the first lead of the speaker */
@@ -291,23 +293,23 @@
 // ----- Pins common on Arduboy and DevKit -----
 
 // Unconnected analog input used for noise by initRandomSeed()
-#define RAND_SEED_IN A6
-#define RAND_SEED_IN_PORT PORTF
-#define RAND_SEED_IN_BIT PORTF1
+#define RAND_SEED_IN 7
+// #define RAND_SEED_IN_PORT PORTF
+// #define RAND_SEED_IN_BIT PORTF1
 // Value for ADMUX to read the random seed pin: 2.56V reference, ADC1
 #define RAND_SEED_IN_ADMUX (_BV(REFS0) | _BV(REFS1) | _BV(MUX0))
 
 // SPI interface
 #define SPI_MISO_PORT PORTB
-#define SPI_MISO_BIT PORTB3
+#define SPI_MISO_BIT PORTB5
 
 #define SPI_MOSI_PORT PORTB
-#define SPI_MOSI_BIT PORTB2
+#define SPI_MOSI_BIT PORTB3
 
 #define SPI_SCK_PORT PORTB
-#define SPI_SCK_BIT PORTB1
+#define SPI_SCK_BIT PORTB5
 
-#define SPI_SS_PORT PORTB
+#define SPI_SS_PORT PORT2
 #define SPI_SS_BIT PORTB0
 // --------------------
 

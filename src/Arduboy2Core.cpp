@@ -83,7 +83,7 @@ void Arduboy2Core::boot()
   #endif
 
   // Select the ADC input here so a delay isn't required in initRandomSeed()
-  ADMUX = RAND_SEED_IN_ADMUX;
+  // ADMUX = RAND_SEED_IN_ADMUX;
 
   bootPins();
   bootSPI();
@@ -113,19 +113,29 @@ void Arduboy2Core::setCPUSpeed8MHz()
 void Arduboy2Core::bootPins()
 {
 #ifdef SLIMBOY
+  // Port B INPUT_PULLUP or HIGH
+  PORTB |= _BV(CS_BIT);
+  // Port B INPUT or LOW
+  PORTB &= ~(_BV(RST_BIT));
+  // Port B inputs (none)
+  DDRB &= ~( _BV(SPI_MISO_BIT));
+  // Port B outputs
+  DDRB |= _BV(RST_BIT) | _BV(CS_BIT) | _BV(DC_BIT) | 
+    _BV(SPI_MOSI_BIT) | _BV(SPI_SCK_BIT);// | _BV(SPI_SS_BIT) <- same as RST_BIT;
+
   // Port C INPUT_PULLUP
   PORTC |= _BV(LEFT_BUTTON_BIT) | _BV(UP_BUTTON_BIT) |
            _BV(B_BUTTON_BIT) | _BV(RIGHT_BUTTON_BIT) |
            _BV(DOWN_BUTTON_BIT) | _BV(A_BUTTON_BIT);
+           
   DDRC &= ~(_BV(LEFT_BUTTON_BIT) | _BV(UP_BUTTON_BIT) |
 	    _BV(B_BUTTON_BIT) | _BV(RIGHT_BUTTON_BIT) |
 	    _BV(DOWN_BUTTON_BIT) | _BV(A_BUTTON_BIT));
   
   //port D 
-  DDRD  |= _BV(GREEN_LED_BIT)   | _BV(BLUE_LED_BIT) | _BV(RED_LED_BIT);
-
   // switch off LEDs by default
   PORTD &= ~(_BV(GREEN_LED_BIT)   | _BV(BLUE_LED_BIT) | _BV(RED_LED_BIT));
+  DDRD  |= _BV(GREEN_LED_BIT)   | _BV(BLUE_LED_BIT) | _BV(RED_LED_BIT);
 #else
 #ifdef ARDUBOY_10
 
@@ -344,31 +354,68 @@ void Arduboy2Core::paintScreen(const uint8_t *image)
 // The following assembly code runs "open loop". It relies on instruction
 // execution times to allow time for each byte of data to be clocked out.
 // It is specifically tuned for a 16MHz CPU clock and SPI clocking at 8MHz.
+// void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
+// {
+//   uint16_t count;
+
+//   asm volatile (
+//     "   ldi   %A[count], %[len_lsb]               \n\t" //for (len = WIDTH * HEIGHT / 8)
+//     "   ldi   %B[count], %[len_msb]               \n\t"
+//     "1: ld    __tmp_reg__, %a[ptr]      ;2        \n\t" //tmp = *(image)
+//     "   out   %[spdr], __tmp_reg__      ;1        \n\t" //SPDR = tmp
+//     "   cpse  %[clear], __zero_reg__    ;1/2      \n\t" //if (clear) tmp = 0;
+//     "   mov   __tmp_reg__, __zero_reg__ ;1        \n\t"
+//     "2: sbiw  %A[count], 1              ;2        \n\t" //len --
+//     "   sbrc  %A[count], 0              ;1/2      \n\t" //loop twice for cheap delay
+//     "   rjmp  2b                        ;2        \n\t"
+//     "   st    %a[ptr]+, __tmp_reg__     ;2        \n\t" //*(image++) = tmp
+//     "   brne  1b                        ;1/2 :18  \n\t" //len > 0
+//     "   in    __tmp_reg__, %[spsr]                \n\t" //read SPSR to clear SPIF
+//     : [ptr]     "+&e" (image),
+//       [count]   "=&w" (count)
+//     : [spdr]    "I"   (_SFR_IO_ADDR(SPDR)),
+//       [spsr]    "I"   (_SFR_IO_ADDR(SPSR)),
+//       [len_msb] "M"   (WIDTH * (HEIGHT / 8 * 2) >> 8),   // 8: pixels per byte
+//       [len_lsb] "M"   (WIDTH * (HEIGHT / 8 * 2) & 0xFF), // 2: for delay loop multiplier
+//       [clear]   "r"   (clear)
+//   );
+// }
+
 void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
 {
-  uint16_t count;
+  uint8_t c;
+  int i = 0;
 
-  asm volatile (
-    "   ldi   %A[count], %[len_lsb]               \n\t" //for (len = WIDTH * HEIGHT / 8)
-    "   ldi   %B[count], %[len_msb]               \n\t"
-    "1: ld    __tmp_reg__, %a[ptr]      ;2        \n\t" //tmp = *(image)
-    "   out   %[spdr], __tmp_reg__      ;1        \n\t" //SPDR = tmp
-    "   cpse  %[clear], __zero_reg__    ;1/2      \n\t" //if (clear) tmp = 0;
-    "   mov   __tmp_reg__, __zero_reg__ ;1        \n\t"
-    "2: sbiw  %A[count], 1              ;2        \n\t" //len --
-    "   sbrc  %A[count], 0              ;1/2      \n\t" //loop twice for cheap delay
-    "   rjmp  2b                        ;2        \n\t"
-    "   st    %a[ptr]+, __tmp_reg__     ;2        \n\t" //*(image++) = tmp
-    "   brne  1b                        ;1/2 :18  \n\t" //len > 0
-    "   in    __tmp_reg__, %[spsr]                \n\t" //read SPSR to clear SPIF
-    : [ptr]     "+&e" (image),
-      [count]   "=&w" (count)
-    : [spdr]    "I"   (_SFR_IO_ADDR(SPDR)),
-      [spsr]    "I"   (_SFR_IO_ADDR(SPSR)),
-      [len_msb] "M"   (WIDTH * (HEIGHT / 8 * 2) >> 8),   // 8: pixels per byte
-      [len_lsb] "M"   (WIDTH * (HEIGHT / 8 * 2) & 0xFF), // 2: for delay loop multiplier
-      [clear]   "r"   (clear)
-  );
+  if (clear)
+  {
+    SPDR = image[i]; // set the first SPI data byte to get things started
+    image[i++] = 0;  // clear the first image byte
+  }
+  else
+    SPDR = image[i++];
+
+  // the code to iterate the loop and get the next byte from the buffer is
+  // executed while the previous byte is being sent out by the SPI controller
+  while (i < (HEIGHT * WIDTH) / 8)
+  {
+    // get the next byte. It's put in a local variable so it can be sent as
+    // as soon as possible after the sending of the previous byte has completed
+    if (clear)
+    {
+      c = image[i];
+      // clear the byte in the image buffer
+      image[i++] = 0;
+    }
+    else
+      c = image[i++];
+
+    while (!(SPSR & _BV(SPIF))) { } // wait for the previous byte to be sent
+
+    // put the next byte in the SPI data register. The SPI controller will
+    // clock it out while the loop continues and gets the next byte ready
+    SPDR = c;
+  }
+  while (!(SPSR & _BV(SPIF))) { } // wait for the last byte to be sent
 }
 
 void Arduboy2Core::blank()
