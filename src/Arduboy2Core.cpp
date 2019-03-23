@@ -120,7 +120,7 @@ void Arduboy2Core::bootPins()
   // Port B inputs (none)
   DDRB &= ~( _BV(SPI_MISO_BIT));
   // Port B outputs
-  DDRB |= _BV(RST_BIT) | _BV(CS_BIT) | _BV(DC_BIT) | 
+  DDRB |= _BV(RST_BIT) | _BV(CS_BIT)  | 
     _BV(SPI_MOSI_BIT) | _BV(SPI_SCK_BIT);// | _BV(SPI_SS_BIT) <- same as RST_BIT;
 
   // Port C INPUT_PULLUP
@@ -135,7 +135,8 @@ void Arduboy2Core::bootPins()
   //port D 
   // switch off LEDs by default
   PORTD &= ~(_BV(GREEN_LED_BIT)   | _BV(BLUE_LED_BIT) | _BV(RED_LED_BIT));
-  DDRD  |= _BV(GREEN_LED_BIT)   | _BV(BLUE_LED_BIT) | _BV(RED_LED_BIT);
+  //PORT D outputs
+  DDRD  |= _BV(GREEN_LED_BIT)   | _BV(BLUE_LED_BIT) | _BV(RED_LED_BIT) | _BV(DC_BIT);
 #else
 #ifdef ARDUBOY_10
 

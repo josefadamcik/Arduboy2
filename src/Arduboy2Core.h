@@ -54,9 +54,9 @@
 #define CS_PORT PORTB   // Display CS port
 #define CS_BIT PORTB0   // Display CS physical bit number
 
-#define PIN_DC 9        // Display D/C Arduino pin number
-#define DC_PORT PORTB   // Display D/C port
-#define DC_BIT PORTB1   // Display D/C physical bit number
+#define PIN_DC 7        // Display D/C Arduino pin number
+#define DC_PORT PORTD   // Display D/C port
+#define DC_BIT PORTD7   // Display D/C physical bit number
 
 #define PIN_RST 10       // Display reset Arduino pin number
 #define RST_PORT PORTB  // Display reset port
@@ -176,13 +176,13 @@
 #endif
 
 #ifdef SLIMBOY
-#define PIN_SPEAKER_1 7  /**< The pin number of the first lead of the speaker */
-//FIXME: solve the second
+#define PIN_SPEAKER_1 9  /**< The pin number of the first lead of the speaker */
+//second wont be used
 #define PIN_SPEAKER_2 4 /**< The pin number of the second lead of the speaker */
 
-#define SPEAKER_1_PORT PORTD
-#define SPEAKER_1_DDR DDRD
-#define SPEAKER_1_BIT PORTD7
+#define SPEAKER_1_PORT PORTB
+#define SPEAKER_1_DDR DDRB
+#define SPEAKER_1_BIT PORTB1
 
 #define SPEAKER_2_PORT PORTD
 #define SPEAKER_2_DDR DDRD
