@@ -298,6 +298,9 @@ int Arduboy2Base::cpuLoad()
 
 unsigned long Arduboy2Base::generateRandomSeed()
 {
+  #ifdef SLIMBOY
+  return analogRead(RAND_SEED_IN);
+  #else
   unsigned long seed;
 
   power_adc_enable(); // ADC on
@@ -311,6 +314,7 @@ unsigned long Arduboy2Base::generateRandomSeed()
   power_adc_disable(); // ADC off
 
   return seed;
+  #endif
 }
 
 void Arduboy2Base::initRandomSeed()
