@@ -298,6 +298,9 @@ int Arduboy2Base::cpuLoad()
 
 unsigned long Arduboy2Base::generateRandomSeed()
 {
+  #ifdef SLIMBOY
+  return analogRead(RAND_SEED_IN);
+  #else
   unsigned long seed;
 
   power_adc_enable(); // ADC on
@@ -311,6 +314,7 @@ unsigned long Arduboy2Base::generateRandomSeed()
   power_adc_disable(); // ADC off
 
   return seed;
+  #endif
 }
 
 void Arduboy2Base::initRandomSeed()
@@ -655,12 +659,12 @@ void Arduboy2Base::fillRect
 void Arduboy2Base::fillScreen(uint8_t color)
 {
   // C version:
-  //
+  
   // if (color != BLACK)
   // {
   //   color = 0xFF; // all pixels on
   // }
-  // for (int16_t i = 0; i < WIDTH * HEIGTH / 8; i++)
+  // for (int16_t i = 0; i < WIDTH * HEIGHT / 8; i++)
   // {
   //    sBuffer[i] = color;
   // }

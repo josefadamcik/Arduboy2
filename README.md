@@ -1,12 +1,13 @@
-# SLIMBOY - Arduboy2 port to Arduino Nano and I²C display
+# SLIMBOY_SPI - Arduboy2 port to Arduino Nano and SPI display
 
-This is a port of the original Arduboy2 code to the simpler and cheaper Arduino Nano and an I²C display.
+This is a port of the [original Arduboy2 code](https://github.com/MLXXXp/Arduboy2) to the simpler and cheaper Arduino Nano and a SPI display and is based on [SLIMBOY - port for Arduino Nano and I²C display](https://github.com/harbaum/Arduboy2)  with slighlty different pinout.
 
-![Breadboard setup](breadboard.png)
+TODO: Document PIN connections, image + describtion
 
-The SLIMBOY setup has a few limitations over the original solution:
+The SLIMBOY_SPI setup has a few limitations over the original solution:
 
- - The I²C connection is slower than SPI and the framerate slightly suffers on some games. The current setup has been optimized for speed and runs nearly as smooth as the SPI version
+ - Uses only one speaker PIN
+ - There is no RGB diode (yet)
  - The Atmega328 on the Arduino Nano has some limitations over the  Atmega32u4 of the original Arduboy
    - It has fewer timers and thus some custom sound libraries won't work 100%
    - It has 500 bytes less ram
@@ -19,8 +20,8 @@ These limitations only have a very minor impact on the usability and games like 
 Several sound libraries exist for the Arduboy. Some of them have also
 been ported the the Nano:
 
- - Matching port of [ArduboyTones](https://github.com/harbaum/ArduboyTones)
- - Matching port of [ATMlib](https://github.com/harbaum/ATMlib)
+ - Matching port of [ArduboyTones](https://github.com/harbaum/ArduboyTones) - for use with SLIMBOY_SPI comentout `#define TONES_2_SPEAKER_PINS` and `#define TONES_VOLUME_CONTROL` (or use [a fork with those changes included]((https://github.com/harbaum/ArduboyTones))
+ - Matching port of [ATMlib](https://github.com/harbaum/ATMlib) - TODO check support and functionality with SLIMBOY_SPI
 
 ## Games tested on the Arduino Nano
 

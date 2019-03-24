@@ -23,6 +23,13 @@ int objectX = 0;
 
 char displayText[60];
 
+
+void commandText(const char* text) {
+  strncpy(displayText, text, sizeof displayText);
+  displayText[sizeof displayText - 1] = '\0';
+}
+
+
 void setup() {
   arduboy.begin();
   arduboy.setFrameRate(25);
@@ -120,10 +127,5 @@ void loop() {
   }
 
   arduboy.display(CLEAR_BUFFER);
-}
-
-void commandText(const char* text) {
-  strncpy(displayText, text, sizeof displayText);
-  displayText[sizeof displayText - 1] = '\0';
 }
 

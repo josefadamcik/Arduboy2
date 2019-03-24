@@ -138,14 +138,14 @@ void setup()
 
   // audio setup
   tunes.initChannel(PIN_SPEAKER_1);
-#ifndef AB_DEVKIT
+// #ifndef AB_DEVKIT
   // if not a DevKit
-  tunes.initChannel(PIN_SPEAKER_2);
-#else
+  // tunes.initChannel(PIN_SPEAKER_2);
+// #else
   // if it's a DevKit
   tunes.initChannel(PIN_SPEAKER_1); // use the same pin for both channels
   tunes.toneMutesScore(true);       // mute the score when a tone is sounding
-#endif
+// #endif
 
   arduboy.invert(!arduboy.audio.enabled()); // invert display if sound muted
 }
