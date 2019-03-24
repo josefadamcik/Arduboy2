@@ -329,7 +329,6 @@ void Arduboy2Base::clear()
   fillScreen(BLACK);
 }
 
-#if 0
 void Arduboy2Base::drawPixel(int16_t x, int16_t y, uint8_t color)
 {
   #ifdef PIXEL_SAFE_MODE
@@ -372,8 +371,7 @@ void Arduboy2Base::drawPixel(int16_t x, int16_t y, uint8_t color)
   if (!(color & _BV(0))) data ^= bit;
   sBuffer[row_offset] = data;
 }
-#endif
-// #if 0
+#if 0
 // For reference, this is the C++ equivalent
 void Arduboy2Base::drawPixel(int16_t x, int16_t y, uint8_t color)
 {
@@ -393,7 +391,7 @@ void Arduboy2Base::drawPixel(int16_t x, int16_t y, uint8_t color)
   if (!color) data ^= bit;
   sBuffer[row_offset] = data;
 }
-// #endif
+#endif
 
 uint8_t Arduboy2Base::getPixel(uint8_t x, uint8_t y)
 {
@@ -662,14 +660,14 @@ void Arduboy2Base::fillScreen(uint8_t color)
 {
   // C version:
   
-  if (color != BLACK)
-  {
-    color = 0xFF; // all pixels on
-  }
-  for (int16_t i = 0; i < WIDTH * HEIGHT / 8; i++)
-  {
-     sBuffer[i] = color;
-  }
+  // if (color != BLACK)
+  // {
+  //   color = 0xFF; // all pixels on
+  // }
+  // for (int16_t i = 0; i < WIDTH * HEIGHT / 8; i++)
+  // {
+  //    sBuffer[i] = color;
+  // }
 
   // This asm version is hard coded for 1024 bytes. It doesn't use the defined
   // WIDTH and HEIGHT values. It will have to be modified for a different
@@ -678,32 +676,32 @@ void Arduboy2Base::fillScreen(uint8_t color)
 
   // local variable for screen buffer pointer,
   // which can be declared a read-write operand
-  // uint8_t* bPtr = sBuffer;
+  uint8_t* bPtr = sBuffer;
 
-  // asm volatile
-  // (
-  //   // if value is zero, skip assigning to 0xff
-  //   "cpse %[color], __zero_reg__\n"
-  //   "ldi %[color], 0xFF\n"
-  //   // counter = 0
-  //   "clr __tmp_reg__\n"
-  //   "loopto:\n"
-  //   // (4x) push zero into screen buffer,
-  //   // then increment buffer position
-  //   "st Z+, %[color]\n"
-  //   "st Z+, %[color]\n"
-  //   "st Z+, %[color]\n"
-  //   "st Z+, %[color]\n"
-  //   // increase counter
-  //   "inc __tmp_reg__\n"
-  //   // repeat for 256 loops
-  //   // (until counter rolls over back to 0)
-  //   "brne loopto\n"
-  //   : [color] "+d" (color),
-  //     "+z" (bPtr)
-  //   :
-  //   :
-  // );
+  asm volatile
+  (
+    // if value is zero, skip assigning to 0xff
+    "cpse %[color], __zero_reg__\n"
+    "ldi %[color], 0xFF\n"
+    // counter = 0
+    "clr __tmp_reg__\n"
+    "loopto:\n"
+    // (4x) push zero into screen buffer,
+    // then increment buffer position
+    "st Z+, %[color]\n"
+    "st Z+, %[color]\n"
+    "st Z+, %[color]\n"
+    "st Z+, %[color]\n"
+    // increase counter
+    "inc __tmp_reg__\n"
+    // repeat for 256 loops
+    // (until counter rolls over back to 0)
+    "brne loopto\n"
+    : [color] "+d" (color),
+      "+z" (bPtr)
+    :
+    :
+  );
 }
 
 void Arduboy2Base::drawRoundRect
