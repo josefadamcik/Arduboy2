@@ -1,6 +1,6 @@
 # SLIMBOY_SPI - Arduboy2 port to Arduino Nano and SPI display
 
-This is a port of the [original Arduboy2 code](https://github.com/MLXXXp/Arduboy2) to the simpler and cheaper Arduino Nano and an SPI display and is based on [SLIMBOY - port for Aruino Nano for I²C display with slighlty different pinout)](https://github.com/harbaum/Arduboy2).
+This is a port of the [original Arduboy2 code](https://github.com/MLXXXp/Arduboy2) to the simpler and cheaper Arduino Nano and a SPI display and is based on [SLIMBOY - port for Arduino Nano and I²C display](https://github.com/harbaum/Arduboy2)  with slighlty different pinout.
 
 TODO: Document PIN connections, image + describtion
 
