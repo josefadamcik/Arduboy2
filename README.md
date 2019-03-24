@@ -20,7 +20,7 @@ These limitations only have a very minor impact on the usability and games like 
 Several sound libraries exist for the Arduboy. Some of them have also
 been ported the the Nano:
 
- - Matching port of [ArduboyTones](https://github.com/harbaum/ArduboyTones) - for use with SLIMBOY_SPI comentout `#define TONES_2_SPEAKER_PINS` and `#define TONES_VOLUME_CONTROL`
+ - Matching port of [ArduboyTones](https://github.com/harbaum/ArduboyTones) - for use with SLIMBOY_SPI comentout `#define TONES_2_SPEAKER_PINS` and `#define TONES_VOLUME_CONTROL` (or use [a fork with those changes included]((https://github.com/harbaum/ArduboyTones))
  - Matching port of [ATMlib](https://github.com/harbaum/ATMlib) - TODO check support and functionality with SLIMBOY_SPI
 
 ## Games tested on the Arduino Nano
