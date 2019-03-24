@@ -56,6 +56,20 @@ byte bottomBrick;
 
 byte tick;
 
+boolean titleScreen();
+boolean titleScreen();
+boolean displayHighScores(byte file);
+void newLevel();
+void Score();
+void newLevel();
+void drawPaddle();
+void drawGameOver();
+void pause();
+void playTone(unsigned int frequency, unsigned int duration);
+void playToneTimed(unsigned int frequency, unsigned int duration);
+void drawBall();
+void enterHighScore(byte file);
+
 void setup()
 {
   arduboy.begin();
@@ -382,6 +396,7 @@ void Score()
 {
   score += (level*10);
 }
+
 
 void newLevel(){
   //Undraw paddle
